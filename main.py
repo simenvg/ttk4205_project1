@@ -39,46 +39,41 @@ def divideSetByClass(trainingSet, numClasses):
 	return classes
 
 
+def print_result(threshold, correct_percent, c_matr, classifier, features):
+	if correct_percent > threshold:
+		print(classifier)
+		print("Egenskaper brukt: ", features)
+		print('Prosent riktig klassifisert: ', correct_percent)
+		print('Forvirringsmatrise C:')
+		print(c_matr)
+
 
 def minErrRate(testData, trainingData, features):
-		# print('\nMinste feilrate')
+	# print('\nMinste feilrate')
 
-		mean1 = findMean(trainingData[0], features)
-		mean2 = findMean(trainingData[1], features)
-		cov1 = findCovariance(trainingData[0], mean1, features)
-		cov2 = findCovariance(trainingData[1], mean2, features)
-		makeDiag(cov1)
-		makeDiag(cov2)
+	mean1 = findMean(trainingData[0], features)
+	mean2 = findMean(trainingData[1], features)
+	cov1 = findCovariance(trainingData[0], mean1, features)
+	cov2 = findCovariance(trainingData[1], mean2, features)
+	makeDiag(cov1)
+	makeDiag(cov2)
 
-		(c_matr, correct_percent) = testClassifier(testData, cov1, cov2, mean1, mean2, elem)
+	(c_matr, correct_percent) = testClassifier(testData, cov1, cov2, mean1, mean2, elem)
 
-		if correct_percent > 93:
-			print('\nMinste feilrate')
-			print("Egenskaper brukt: ", features)
-			print('Prosent riktig klassifisert: ', correct_percent)
-			print('Forvirringsmatrise C:')
-			print(c_matr)
+	print_result(95, correct_percent, c_matr, 'Minste feilrate', features)
+
 
 def MLS(testData, trainingData, features):
 	a = getA(getY(trainingData, features), getB(trainingData))
 	(c_matr, correct_percent) = testClassifierMLS(testData, a, features)
 
-	if correct_percent > 90:
-		print('\n Minste kvadraters metode')
-		print("Egenskaper brukt: ", features)
-		print('Prosent riktig klassifisert: ', correct_percent)
-		print('Forvirringsmatrise C:')
-		print(c_matr)
+	print_result(90, correct_percent, c_matr, 'Minste kvadraters metode', features)
 
 def nearestNeighbour(testSet, trainingSet, features):
 	(c_matr, correct_percent) = checkClassifier(testSet, trainingSet, features)
+	print_result(90, correct_percent, c_matr, 'Næreste nabo', features)
 
-	if correct_percent > 90:
-		print('\nNæreste nabo')
-		print("Egenskaper brukt: ", features)
-		print('Prosent riktig klassifisert: ', correct_percent)
-		print('Forvirringsmatrise C:')
-		print(c_matr)
+
 
 data = []
 training_div = []
